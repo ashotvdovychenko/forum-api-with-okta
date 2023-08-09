@@ -16,29 +16,29 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column
+    String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @Column
+    String password;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
+    @Column(name = "created_at")
+    Instant createdAt = Instant.now();
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Topic> createdTopics = new ArrayList<>();
+    List<Topic> createdTopics = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
 
-    public void addCreatedComment(Topic topic) {
+    public void addCreatedTopic(Topic topic) {
         createdTopics.add(topic);
         topic.setCreator(this);
     }
 
-    public void removeCreatedComment(Topic topic) {
+    public void removeCreatedTopic(Topic topic) {
         createdTopics.remove(topic);
         topic.setCreator(null);
     }
@@ -50,6 +50,8 @@ public class User {
 
     public void removeComment(Comment comment) {
         comments.remove(comment);
+        comment.topic.comments.remove(comment);
+        comment.setTopic(null);
         comment.setUser(null);
     }
 }

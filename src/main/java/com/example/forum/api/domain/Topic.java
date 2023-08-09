@@ -18,24 +18,24 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column
+    String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column
+    String description;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
+    @Column(name = "created_at")
+    Instant createdAt = Instant.now();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id", nullable = false)
-    private User creator;
+    User creator;
 
-    @OrderColumn(name = "created_at")
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+    @OrderBy(value = "createdAt asc")
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {
         comments.add(comment);
@@ -44,7 +44,9 @@ public class Topic {
 
     public void removeComment(Comment comment) {
         comments.remove(comment);
+        comment.user.comments.remove(comment);
         comment.setTopic(null);
+        comment.setUser(null);
     }
 
     @Override

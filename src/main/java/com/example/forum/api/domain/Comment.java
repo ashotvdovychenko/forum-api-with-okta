@@ -13,24 +13,25 @@ import java.util.Objects;
 @Entity
 @Table(name = "comments")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
-    @Column(name = "text", nullable = false)
-    private String text;
+    @Column
+    String text;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt = Instant.now();
+    @Column(name = "created_at")
+    Instant createdAt = Instant.now();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "topic_id", nullable = false)
-    private Topic topic;
+    Topic topic;
 
     @Override
     public boolean equals(Object o) {
