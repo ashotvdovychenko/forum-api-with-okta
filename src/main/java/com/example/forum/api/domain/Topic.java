@@ -34,7 +34,7 @@ public class Topic {
     User creator;
 
     @OrderBy(value = "createdAt asc")
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {
