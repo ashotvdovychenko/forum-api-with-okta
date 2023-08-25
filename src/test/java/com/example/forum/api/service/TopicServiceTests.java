@@ -68,9 +68,9 @@ public class TopicServiceTests {
     topic.setName(newTopicName);
     var updatedTopic = topicService.update(topic);
 
-    assertThat(updatedTopic.getId()).isEqualTo(topicId);
-    assertThat(updatedTopic.getName()).isEqualTo(newTopicName);
     assertThat(updatedTopic.getName()).isNotEqualTo(oldTopicName);
+    assertThat(updatedTopic.getName()).isEqualTo(newTopicName);
+    assertThat(updatedTopic.getId()).isEqualTo(topicId);
   }
 
   @Test

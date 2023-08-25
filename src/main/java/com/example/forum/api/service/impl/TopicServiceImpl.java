@@ -45,5 +45,4 @@ public class TopicServiceImpl implements TopicService {
   public void deleteById(Long id) {
     topicRepository.deleteById(id);
   }
-
 }
