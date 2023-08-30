@@ -30,6 +30,7 @@ public class TopicServiceTests {
   public void cleanAll() {
     userRepository.deleteAll();
     topicRepository.deleteAll();
+    commentRepository.deleteAll();
   }
 
   @Test
